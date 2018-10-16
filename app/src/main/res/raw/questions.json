@@ -3,7 +3,7 @@
   {"question":"Inertia is directly proportional to an object's mass.","answer":true},
   {"question":"Inertia is directly proportional to an object's velocity.","answer":false},
   {"question":"Friction is a force that opposes motion.","answer":true},
-  {"question":"Mass and weight are the same.","answer":true},
+  {"question":"Mass and weight are the same.","answer":false},
   {"question":"An object at rest has no inertia.","answer":false},
   {"question":"In an object is not moving, no forces are acting upon it.","answer":false},
   {"question":"If an object is moving, a net force must be acting upon it.","answer":false}

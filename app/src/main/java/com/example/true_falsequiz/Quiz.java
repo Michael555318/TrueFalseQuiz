@@ -7,7 +7,10 @@ public class Quiz {
     private int currentQuestion;
     private List<Question> quiz;
 
-    public Quiz() {
+    public Quiz(List<Question> quiz) {
+        this.quiz = quiz;
+        score = 0;
+        currentQuestion = 0;
     }
 
     public List<Question> getQuiz() {
@@ -18,13 +21,17 @@ public class Quiz {
         this.quiz = quiz;
     }
 
-    public int getCurrentQuestion() {
-
+    public int getCurrentQuestionNum() {
         return currentQuestion;
     }
 
-    public void setCurrenQuestion(int currenQuestion) {
-        this.currentQuestion = currenQuestion;
+    public Question getCurrentQuestion() {
+
+        return quiz.get(currentQuestion);
+    }
+
+    public void setCurrentQuestion(int currentQuestion) {
+        this.currentQuestion = currentQuestion;
     }
 
     public int getScore() {
