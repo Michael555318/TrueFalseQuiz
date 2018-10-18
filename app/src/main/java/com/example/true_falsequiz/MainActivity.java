@@ -1,6 +1,9 @@
 package com.example.true_falsequiz;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -26,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private Button falseButton;
     private ImageView correct;
     private ImageView wrong;
+    public static final String EXTRA_MESSAGE = "msg";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,55 +49,64 @@ public class MainActivity extends AppCompatActivity {
         List<Question> questionList = Arrays.asList(questions);
         Quiz quiz = new Quiz(questionList);
         startNewQuestion(quiz);
-
     }
 
     @SuppressLint("SetTextI18n")
     private void startNewQuestion(final Quiz quiz) {
-        correct.setVisibility(View.INVISIBLE);
-        wrong.setVisibility(View.INVISIBLE);
-        display.setText(quiz.getCurrentQuestion().getQuestion());
-        int number = quiz.getCurrentQuestionNum()+1;
-        questionNum.setText("Question " + number);
-        trueButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (quiz.getCurrentQuestion().getAnswer() == true) {
-                    quiz.setScore(quiz.getScore() + 10);
-                    correct.setVisibility(View.VISIBLE);
-                } else {
-                    if (quiz.getScore() - 5 >= 0) {
-                        quiz.setScore(quiz.getScore() - 5);
+        if (quiz.getCurrentQuestionNum() == 8) {
+            Intent result = new Intent(MainActivity.this, Main2Activity.class);
+            result.putExtra(EXTRA_MESSAGE, quiz.getScore());
+            startActivity(result);
+        } else {
+            correct.setVisibility(View.INVISIBLE);
+            wrong.setVisibility(View.INVISIBLE);
+            display.setText(quiz.getCurrentQuestion().getQuestion());
+            int number = quiz.getCurrentQuestionNum()+1;
+            questionNum.setText("Question " + number);
+            trueButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (quiz.getCurrentQuestion().getAnswer() == true) {
+                        quiz.setScore(quiz.getScore() + 10);
+                        correct.setVisibility(View.VISIBLE);
+                    } else {
+                        if (quiz.getScore() - 5 >= 0) {
+                            quiz.setScore(quiz.getScore() - 5);
+                        }
+                        wrong.setVisibility(View.VISIBLE);
                     }
-                    wrong.setVisibility(View.VISIBLE);
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            // Do something after 5s = 5000ms
+                            updateAndNext(quiz);
+                        }
+                    }, 2000);
                 }
-                //stop(2000);
-                updateAndNext(quiz);
-            }
-        });
-        falseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (quiz.getCurrentQuestion().getAnswer() == false) {
-                    quiz.setScore(quiz.getScore() + 10);
-                    correct.setVisibility(View.VISIBLE);
-                } else {
-                    if (quiz.getScore() - 5 >= 0) {
-                        quiz.setScore(quiz.getScore() - 5);
+            });
+            falseButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (quiz.getCurrentQuestion().getAnswer() == false) {
+                        quiz.setScore(quiz.getScore() + 10);
+                        correct.setVisibility(View.VISIBLE);
+                    } else {
+                        if (quiz.getScore() - 5 >= 0) {
+                            quiz.setScore(quiz.getScore() - 5);
+                        }
+                        wrong.setVisibility(View.VISIBLE);
                     }
-                    wrong.setVisibility(View.VISIBLE);
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            // Do something after 5s = 5000ms
+                            updateAndNext(quiz);
+                        }
+                    }, 2000);
                 }
-                //stop(2000);
-                updateAndNext(quiz);
-            }
-        });
-    }
-
-    private void stop(int i) {
-        try {
-            Thread.sleep(i);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            });
         }
     }
 
@@ -101,8 +115,6 @@ public class MainActivity extends AppCompatActivity {
         quiz.setCurrentQuestion(quiz.getCurrentQuestionNum()+1);
         startNewQuestion(quiz);
     }
-
-
 
     private void wireWidgets() {
         display = findViewById(R.id.textView_main_displayquestion);

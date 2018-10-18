@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">True-False Quiz</string>
+    <string name="textview_main_score">Score: 0</string>
 </resources>
