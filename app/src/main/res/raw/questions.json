@@ -6,5 +6,9 @@
   {"question":"Mass and weight are the same.","answer":false},
   {"question":"An object at rest has no inertia.","answer":false},
   {"question":"In an object is not moving, no forces are acting upon it.","answer":false},
-  {"question":"If an object is moving, a net force must be acting upon it.","answer":false}
+  {"question":"If an object is moving, a net force must be acting upon it.","answer":false},
+  {"question":"If an object is accelerating, a net force must be acting upon it.","answer":true },
+  {"question":"In a vacuum, a bowling ball and a ping pong ball would accelerate at the same rate when dropped.","answer":true},
+  {"question":"Pressure is directly proportional to force.","answer":true},
+  {"question":"The effect of gravity causes the horizontal component of a projectile's velocity to decrease.","answer":false}
 ]

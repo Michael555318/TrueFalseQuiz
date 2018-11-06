@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView correct;
     private ImageView wrong;
     public static final String EXTRA_MESSAGE = "msg";
+    public static final int QUESTION_NUM = 12;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +40,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         wireWidgets();
 
+        String jsonString = "";
         InputStream stream = getResources().openRawResource(R.raw.questions);
-        String jsonString = readTextFile(stream);
+        jsonString = readTextFile(stream);
 
         // create a gson object
         Gson gson = new Gson();
@@ -49,11 +52,12 @@ public class MainActivity extends AppCompatActivity {
         List<Question> questionList = Arrays.asList(questions);
         Quiz quiz = new Quiz(questionList);
         startNewQuestion(quiz);
+
     }
 
     @SuppressLint("SetTextI18n")
     private void startNewQuestion(final Quiz quiz) {
-        if (quiz.getCurrentQuestionNum() == 8) {
+        if (quiz.getCurrentQuestionNum() == QUESTION_NUM) {
             Intent result = new Intent(MainActivity.this, Main2Activity.class);
             result.putExtra(EXTRA_MESSAGE, quiz.getScore());
             startActivity(result);
